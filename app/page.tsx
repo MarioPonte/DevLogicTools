@@ -1,8 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { Copy } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -35,9 +37,26 @@ export default function Home() {
     setUserEdited(false);
   };
 
+  // Function to copy password to clipboard
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(password)
+      .then(() => {
+        alert("Password copiada para a área de transferência!");
+      })
+      .catch(() => {
+        alert("Falha ao copiar a password.");
+      });
+  };
+
   return (
     <div className="m-20 max-w-[860px] flex flex-col gap-4">
-      <Input type="text" className="md:text-xl" maxLength={50} value={password} onChange={handlePasswordChange} />
+      <div className="flex gap-4">
+        <Input type="text" className="md:text-xl" maxLength={50} value={password} onChange={handlePasswordChange} />
+        <Button variant="outline" size="icon" onClick={copyToClipboard} >
+          <Copy />
+        </Button>
+      </div>
       <div className="flex gap-4">
         <Slider value={[charNum]} onValueChange={(val) => handleCharNumChange(val[0])} min={1} max={50} step={1} />
         <Input type="number" className="w-20" value={charNum} onChange={(e) => handleCharNumChange(Number(e.target.value))} />
@@ -56,14 +75,14 @@ export default function Home() {
           </label>
         </div>
         <div className="flex items-center space-x-2">
-          <Checkbox id="minusculas" />
-          <label htmlFor="minusculas" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          <Checkbox id="numeros" />
+          <label htmlFor="numeros" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Números
           </label>
         </div>
         <div className="flex items-center space-x-2">
-          <Checkbox id="minusculas" />
-          <label htmlFor="minusculas" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          <Checkbox id="simbolos" />
+          <label htmlFor="simbolos" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Símbolos
           </label>
         </div>
