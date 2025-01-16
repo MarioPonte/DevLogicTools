@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
-import { Copy } from "lucide-react";
+import { Copy, RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -49,12 +49,22 @@ export default function Home() {
       });
   };
 
+  // Function to regenerate password
+  const regeneratePassword = () => {
+    const newPassword = generateRandomPassword(charNum);
+    setPassword(newPassword);
+    setUserEdited(false);
+  };
+
   return (
     <div className="m-20 max-w-[860px] flex flex-col gap-4">
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         <Input type="text" className="md:text-xl" maxLength={50} value={password} onChange={handlePasswordChange} />
         <Button variant="outline" size="icon" onClick={copyToClipboard} >
           <Copy />
+        </Button>
+        <Button variant="outline" size="icon" onClick={regeneratePassword} >
+          <RefreshCcw />
         </Button>
       </div>
       <div className="flex gap-4">
