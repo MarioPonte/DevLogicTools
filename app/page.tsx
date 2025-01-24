@@ -3,37 +3,43 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import { Slider } from "@/components/ui/slider";
+import { useToast } from "@/hooks/use-toast";
 import { Copy, RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const { toast } = useToast()
+
   const [charNum, setCharNum] = useState<any>(12);
   const [password, setPassword] = useState<string>("");
   const [userEdited, setUserEdited] = useState<boolean>(false);
   const [upperChars, setUpperChars] = useState<boolean>(true);
   const [lowerChars, setLowerChars] = useState<boolean>(true);
   const [numberChars, setNumberChars] = useState<boolean>(true);
+  const [symbolChars, setSymbolChars] = useState<boolean>(true);
 
   // Function to generate random password
   const generateRandomPassword = (length: number) => {
     const uppercaseData = upperChars ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : "";
     const lowercaseData = lowerChars ? "abcdefghijklmnopqrstuvwxyz" : "";
     const numbersData = numberChars ? "0123456789" : "";
+    const symbolsData = symbolChars ? "!@#$%^&*()_+[]{}|;:,.<>?~\"\'\`" : "";
 
-    let chars = uppercaseData + lowercaseData + numbersData;
+    let chars = uppercaseData + lowercaseData + numbersData + symbolsData;
 
     return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
   };
 
   // Ensure at least one checkbox is always selected
-  const handleCheckboxChange = (type: "upper" | "lower" | "number") => {
-    const currentState = { upper: upperChars, lower: lowerChars, number: numberChars };
+  const handleCheckboxChange = (type: "upper" | "lower" | "number" | "symbol") => {
+    const currentState = { upper: upperChars, lower: lowerChars, number: numberChars, symbol: symbolChars };
     currentState[type] = !currentState[type];
 
     // If all options are about to be deselected, prevent the change
-    if (!currentState.upper && !currentState.lower && !currentState.number) {
-      alert("Pelo menos uma opção deve estar selecionada.");
+    if (!currentState.upper && !currentState.lower && !currentState.number && !currentState.symbol) {
+      toast({ title: "Não pode desabilitar todas as opções", description: "Pelo menos uma opção deve estar selecionada.", variant: "destructive" })
       return;
     }
 
@@ -41,12 +47,13 @@ export default function Home() {
     if (type === "upper") setUpperChars(!upperChars);
     if (type === "lower") setLowerChars(!lowerChars);
     if (type === "number") setNumberChars(!numberChars);
+    if (type === "symbol") setSymbolChars(!symbolChars);
   };
 
   // Updates the random password whenever `charNum` changes, but only if it hasn't been edited by the user
   useEffect(() => {
-    if (!userEdited) setPassword(generateRandomPassword(charNum))
-  }, [charNum, userEdited]);
+    if (!userEdited) setPassword(generateRandomPassword(charNum));
+  }, [upperChars, lowerChars, numberChars, symbolChars, charNum, userEdited]);
 
   // Function to handle changes in text input
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,12 +73,8 @@ export default function Home() {
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(password)
-      .then(() => {
-        alert("Password copiada para a área de transferência!");
-      })
-      .catch(() => {
-        alert("Falha ao copiar a password.");
-      });
+      .then(() => toast({ title: "Copiado para a área de transferência!", description: "Senha copiada com sucesso!" }))
+      .catch(() => alert("Falha ao copiar a senha."));
   };
 
   // Function to regenerate password
@@ -89,7 +92,7 @@ export default function Home() {
           <Button variant="outline" size="icon" onClick={copyToClipboard} >
             <Copy />
           </Button>
-          <Button variant="outline" size="icon" onClick={regeneratePassword} >
+          <Button variant="outline" size="icon" onClick={() => { regeneratePassword(); toast({ title: "Senha Regenerada!", description: "Nova senha gerada com sucesso!" }) }} >
             <RefreshCcw />
           </Button>
         </div>
@@ -100,28 +103,31 @@ export default function Home() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center space-x-2">
             <Checkbox id="maiusculas" checked={upperChars} onCheckedChange={() => handleCheckboxChange("upper")} />
-            <label htmlFor="maiusculas" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            <label htmlFor="maiusculas" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none">
               Maiúsculas
             </label>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox id="minusculas" checked={lowerChars} onCheckedChange={() => handleCheckboxChange("lower")} />
-            <label htmlFor="minusculas" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            <label htmlFor="minusculas" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none">
               Minúsculas
             </label>
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox id="numeros" checked={numberChars} onCheckedChange={() => handleCheckboxChange("number")} />
-            <label htmlFor="numeros" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            <label htmlFor="numeros" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none">
               Números
             </label>
           </div>
           <div className="flex items-center space-x-2">
-            <Checkbox id="simbolos" />
-            <label htmlFor="simbolos" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            <Checkbox id="simbolos" checked={symbolChars} onCheckedChange={() => handleCheckboxChange("symbol")} />
+            <label htmlFor="simbolos" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none">
               Símbolos
             </label>
           </div>
+        </div>
+        <div>
+          <Progress value={33} />
         </div>
       </div>
     </div>
