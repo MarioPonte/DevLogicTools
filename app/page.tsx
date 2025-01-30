@@ -19,6 +19,7 @@ export default function Home() {
   const [lowerChars, setLowerChars] = useState<boolean>(true);
   const [numberChars, setNumberChars] = useState<boolean>(true);
   const [symbolChars, setSymbolChars] = useState<boolean>(true);
+  const [passwordStrength, setPasswordStrength] = useState<number>(5);
 
   // Function to generate random password
   const generateRandomPassword = (length: number) => {
@@ -49,6 +50,22 @@ export default function Home() {
     if (type === "number") setNumberChars(!numberChars);
     if (type === "symbol") setSymbolChars(!symbolChars);
   };
+
+  const evaluatePasswordStrength = (password: string): number => {
+    let score = 1;
+    const length = password.length;
+  
+    if (length > 4) score = 2;
+    if (length > 6) score = 3;
+    if (length > 9) score = 4;
+    if (length >= 12) score = 5;
+  
+    return score;
+  };
+
+  const strengthToProgress = [0, 25, 50, 75, 100];
+
+  useEffect(() => setPasswordStrength(evaluatePasswordStrength(password)), [password]);
 
   // Updates the random password whenever `charNum` changes, but only if it hasn't been edited by the user
   useEffect(() => {
@@ -126,8 +143,9 @@ export default function Home() {
             </label>
           </div>
         </div>
-        <div>
-          <Progress value={33} />
+        <div className="flex gap-2 items-center">
+          <Progress value={strengthToProgress[passwordStrength-1]} className={`h-2`} />
+          <span className={`text-xs w-20 text-center ${passwordStrength === 1 ? "text-red-800" : passwordStrength === 2 ? "text-red-500" : passwordStrength === 3 ? "text-amber-500" : passwordStrength === 4 ? "text-green-500" : "text-green-800" }`}>{passwordStrength === 1 ? "Muito Fraca" : passwordStrength === 2 ? "Fraca" : passwordStrength === 3 ? "Razoavel" : passwordStrength === 4 ? "Forte" : "Muito Forte" }</span>
         </div>
       </div>
     </div>
