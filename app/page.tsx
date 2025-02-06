@@ -54,12 +54,12 @@ export default function Home() {
   const evaluatePasswordStrength = (password: string): number => {
     let score = 1;
     const length = password.length;
-  
+
     if (length > 4) score = 2;
     if (length > 6) score = 3;
     if (length > 9) score = 4;
     if (length >= 12) score = 5;
-  
+
     return score;
   };
 
@@ -104,6 +104,11 @@ export default function Home() {
   return (
     <div className="mx-auto my-8 max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
       <div className="max-w-[860px] flex flex-col gap-4">
+        <div className="text-center text-xl md:text-3xl">
+          <h1>
+            Gerador de Senhas
+          </h1>
+        </div>
         <div className="flex gap-2">
           <Input type="text" className="md:text-xl" maxLength={50} value={password} onChange={handlePasswordChange} />
           <Button variant="outline" size="icon" onClick={copyToClipboard} >
@@ -144,8 +149,8 @@ export default function Home() {
           </div>
         </div>
         <div className="flex gap-2 items-center">
-          <Progress value={strengthToProgress[passwordStrength-1]} className={`h-2`} />
-          <span className={`text-xs w-20 text-center ${passwordStrength === 1 ? "text-red-800" : passwordStrength === 2 ? "text-red-500" : passwordStrength === 3 ? "text-amber-500" : passwordStrength === 4 ? "text-green-500" : "text-green-800" }`}>{passwordStrength === 1 ? "Muito Fraca" : passwordStrength === 2 ? "Fraca" : passwordStrength === 3 ? "Razoavel" : passwordStrength === 4 ? "Forte" : "Muito Forte" }</span>
+          <Progress value={strengthToProgress[passwordStrength - 1]} className={`h-2`} />
+          <span className={`text-xs w-24 text-center ${passwordStrength === 1 ? "text-red-800" : passwordStrength === 2 ? "text-red-500" : passwordStrength === 3 ? "text-amber-500" : passwordStrength === 4 ? "text-green-500" : "text-green-800"}`}>{passwordStrength === 1 ? "Muito Fraca" : passwordStrength === 2 ? "Fraca" : passwordStrength === 3 ? "Razoavel" : passwordStrength === 4 ? "Forte" : "Muito Forte"}</span>
         </div>
       </div>
     </div>

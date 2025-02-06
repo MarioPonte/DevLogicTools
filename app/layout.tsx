@@ -3,21 +3,26 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
-export const metadata: Metadata = {
-  title: "Ferramentas para Devs",
-  description: "Kit de ferramentas de auxilio para Desenvolvedores.",
-};
+  src: [
+    {
+      path: './fonts/GeistMono-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/GeistMono-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/GeistMono-Light.ttf',
+      weight: '300',
+      style: 'normal',
+    }
+  ],
+  variable: '--font-geist-mono'
+})
 
 export default function RootLayout({
   children,
@@ -25,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="pt" className={`${geistMono.variable}`}>
+      <body className={`font-mono`}>
         {children}
         <Toaster />
       </body>
