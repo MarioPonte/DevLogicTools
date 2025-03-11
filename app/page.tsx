@@ -22,6 +22,11 @@ export default function Home() {
             <span>Regra de 3 Simples</span>
             <Calculator />
           </Link>
+
+          <Link href="/calculadora" className="flex items-center justify-between w-80 text-xl p-2 border-2 border-black rounded-md">
+            <span>Calculadora</span>
+            <Calculator />
+          </Link>
         </div>
       </div>
     </div>
