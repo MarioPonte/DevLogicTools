@@ -17,7 +17,7 @@ export default function Page() {
 
     const calculateResult = () => {
         try {
-            const expression = input.replace(/x/g, "*").replace(/÷/g, "/");
+            const expression = input.replace(/x/g, "*").replace(/÷/g, "/").replace(/%/g, "/100");
 
             const evaluatedResult = eval(expression);
 
@@ -25,6 +25,11 @@ export default function Page() {
         } catch (error) {
             setResult("Erro");
         }
+    };
+
+    const handleClear = () => {
+        setInput("");
+        setResult("");
     };
 
     return (
@@ -42,8 +47,9 @@ export default function Page() {
                     </div>
 
                     <div className="flex justify-between w-full">
-                        <div className="flex flex-col gap-4 w-60">
+                        <div className="flex flex-col gap-4 w-56">
                             {[
+                                ["(", ")", "%"],
                                 ["1", "2", "3"],
                                 ["4", "5", "6"],
                                 ["7", "8", "9"],
@@ -59,13 +65,25 @@ export default function Page() {
                             ))}
                         </div>
 
-                        {/* Operators */}
                         <div className="flex flex-col gap-4">
-                            {["+", "-", "x", "÷"].map((op) => (
-                                <Button key={op} className="text-xl w-14 h-14" onClick={() => handleButtonClick(op)}>
-                                    {op}
+                            {/* Operators */}
+                            <div className="flex flex-col gap-4 w-32">
+                                {[["+", "-"], ["x", "÷"]].map((row, index) => (
+                                    <div key={index} className="flex justify-between">
+                                        {row.map((num) => (
+                                            <Button key={num} className="text-xl w-14 h-14" onClick={() => handleButtonClick(num)}>
+                                                {num}
+                                            </Button>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div>
+                                <Button className="text-xl w-full h-14" onClick={() => handleClear()}>
+                                    Limpar
                                 </Button>
-                            ))}
+                            </div>
                         </div>
                     </div>
                 </div>
