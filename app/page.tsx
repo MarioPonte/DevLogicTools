@@ -1,6 +1,6 @@
 "use client";
 
-import { Calculator, KeyRound } from "lucide-react";
+import { Calculator, Calendar, KeyRound } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -26,6 +26,11 @@ export default function Home() {
           <Link href="/calculadora" className="flex items-center justify-between w-80 text-xl p-2 border-2 border-black rounded-md">
             <span>Calculadora</span>
             <Calculator />
+          </Link>
+
+          <Link href="/calendario" className="flex items-center justify-between w-80 text-xl p-2 border-2 border-black rounded-md">
+            <span>Calendário</span>
+            <Calendar />
           </Link>
         </div>
       </div>
