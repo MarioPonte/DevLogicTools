@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
+import Footer from "@/components/Footer";
 
 const geistMono = localFont({
   src: [
@@ -33,6 +34,7 @@ export default function RootLayout({
     <html lang="pt" className={`${geistMono.variable}`}>
       <body className={`font-mono`}>
         {children}
+        <Footer />
         <Toaster />
       </body>
     </html>
