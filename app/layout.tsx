@@ -3,6 +3,11 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import Footer from "@/components/Footer";
+ 
+export const metadata: Metadata = {
+  title: 'Dev Logic Tools',
+  description: 'Um hub de ferramentas úteis para tornar as tuas tarefas mais rápidas, simples e eficientes.',
+}
 
 const geistMono = localFont({
   src: [

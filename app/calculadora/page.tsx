@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import KeyboardKey from "@/components/ui/keyboard-key";
 
 export default function Page() {
     const [input, setInput] = useState("");
@@ -25,6 +26,8 @@ export default function Page() {
         setInput("");
         setResult("");
     };
+
+    const handleClearEntry = () => setInput((prev) => prev.slice(0, -1));
 
     // Keyboard Keys input
     useEffect(() => {
@@ -108,9 +111,15 @@ export default function Page() {
                                 ))}
                             </div>
 
-                            <div>
-                                <Button className="text-xl w-full h-14" onClick={() => handleClear()}>
-                                    Limpar
+                            <div className="flex flex-col gap-4">
+                                <Button className="w-full h-14" variant="outline" onClick={() => handleClearEntry()}>
+                                    <KeyboardKey>←</KeyboardKey>
+                                    <span className="text-md">CE</span>
+                                </Button>
+
+                                <Button className="w-full h-14" variant="outline" onClick={() => handleClear()}>
+                                    <KeyboardKey>Esc</KeyboardKey>
+                                    <span className="text-md">C</span>
                                 </Button>
                             </div>
                         </div>
