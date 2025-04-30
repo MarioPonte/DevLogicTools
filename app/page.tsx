@@ -1,6 +1,6 @@
 "use client";
 
-import { Calculator, Calendar, KeyRound } from "lucide-react";
+import { Calculator, Calendar, KeyRound, QrCode } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -34,6 +34,11 @@ export default function Home() {
           <Link href="/calendario" className="flex items-center justify-between w-80 text-xl p-2 border-2 border-black rounded-md">
             <span>Calendário</span>
             <Calendar />
+          </Link>
+
+          <Link href="/gerador-de-qrcodes" className="flex items-center justify-between w-80 text-xl p-2 border-2 border-black rounded-md">
+            <span>Gerador de QR Codes</span>
+            <QrCode />
           </Link>
         </div>
       </div>
