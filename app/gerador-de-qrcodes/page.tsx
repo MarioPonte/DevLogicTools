@@ -4,23 +4,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import QRCode from 'qrcode';
+import { Download } from "lucide-react";
 
 export default function Page() {
     const [url, setUrl] = useState("");
     const [qrcode, setQrcode] = useState("");
 
     const generateQRCode = () => {
-        QRCode.toDataURL(url, (err, url) => {
+        QRCode.toDataURL(url, {
+            width: 1280,
+            margin: 2,
+            color: {
+                dark: "#0000ff",
+                light: "#71eeff"
+            }
+        }, (err, url) => {
             if (err) return console.error(err)
 
-            console.log(url);
             setQrcode(url);
         })
-    };
-
-    const handleGenerate = () => {
-        // in future we will generate the QR code here
-        console.log("Texto para QR:", url);
     };
 
     return (
@@ -44,8 +46,16 @@ export default function Page() {
                     </Button>
 
                     {/* Aqui será renderizado o QR code futuramente */}
-                    <div className="h-40 border rounded flex items-center justify-center text-gray-400">
-                        {!qrcode ? "QR Code aparecerá aqui" : <img src={qrcode} alt="QRCode" />}
+                    <div className="h-80 border rounded flex items-center justify-center text-gray-400">
+                        {!qrcode ? "QR Code aparecerá aqui" : (
+                            <div className="flex flex-col gap-4 items-center justify-center">
+                                <img src={qrcode} alt="QRCode" className="w-48 h-48 border" />
+                                <a href={qrcode} download="qrcode.png" className="flex gap-4 items-center py-2 px-4 rounded-lg border text-xs text-black">
+                                    <Download size={16} />
+                                    Baixar imagem do QR Code
+                                </a>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
