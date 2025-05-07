@@ -10,20 +10,16 @@ import { ColorPicker } from "@/components/ui/color-picker";
 export default function Page() {
     const [url, setUrl] = useState("");
     const [qrcode, setQrcode] = useState("");
-    const [color, setColor] = useState('#ffffff');
-
-    const handleColorChange = (color: any) => {
-        generateQRCode();
-        setColor(color);
-    };
+    const [mainColor, setMainColor] = useState('#000000');
+    const [backgroundColor, setBackgroundColor] = useState('#ffffff');
 
     const generateQRCode = () => {
         QRCode.toDataURL(url, {
             width: 1280,
             margin: 2,
             color: {
-                dark: "#000000",
-                light: color
+                dark: mainColor,
+                light: backgroundColor
             }
         }, (err, url) => {
             if (err) return console.error(err)
@@ -53,7 +49,7 @@ export default function Page() {
                     </Button>
 
                     {/* Aqui será renderizado o QR code futuramente */}
-                    <div className="h-80 border rounded flex items-center justify-center text-gray-400">
+                    <div className="min-h-80 py-6 border rounded flex items-center justify-center text-gray-400">
                         {!qrcode ? "QR Code aparecerá aqui" : (
                             <div className="flex flex-col gap-4 items-center justify-center">
                                 <img src={qrcode} alt="QRCode" className="w-48 h-48 border" />
@@ -61,11 +57,20 @@ export default function Page() {
                                     <Download size={16} />
                                     Baixar imagem do QR Code
                                 </a>
-                                <div className="flex gap-2 items-center">
-                                    <ColorPicker id="backgroundColor" onChange={(v) => handleColorChange(v)} value={color} />
-                                    <label htmlFor="backgroundColor" className="text-black text-sm">
-                                        Cor do Fundo
-                                    </label>
+                                <div className="flex flex-col gap-2 border px-4 py-2 rounded-md">
+                                    <div className="flex gap-2 items-center">
+                                        <ColorPicker id="mainColor" onChange={(v) => setMainColor(v)} value={mainColor} />
+                                        <label htmlFor="mainColor" className="text-black text-sm">
+                                            Cor Principal
+                                        </label>
+                                    </div>
+
+                                    <div className="flex gap-2 items-center">
+                                        <ColorPicker id="backgroundColor" onChange={(v) => setBackgroundColor(v)} value={backgroundColor} />
+                                        <label htmlFor="backgroundColor" className="text-black text-sm">
+                                            Cor do Fundo
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         )}
