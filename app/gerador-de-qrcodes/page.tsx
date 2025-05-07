@@ -5,18 +5,25 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import QRCode from 'qrcode';
 import { Download } from "lucide-react";
+import { ColorPicker } from "@/components/ui/color-picker";
 
 export default function Page() {
     const [url, setUrl] = useState("");
     const [qrcode, setQrcode] = useState("");
+    const [color, setColor] = useState('#ffffff');
+
+    const handleColorChange = (color: any) => {
+        generateQRCode();
+        setColor(color);
+    };
 
     const generateQRCode = () => {
         QRCode.toDataURL(url, {
             width: 1280,
             margin: 2,
             color: {
-                dark: "#0000ff",
-                light: "#71eeff"
+                dark: "#000000",
+                light: color
             }
         }, (err, url) => {
             if (err) return console.error(err)
@@ -54,6 +61,12 @@ export default function Page() {
                                     <Download size={16} />
                                     Baixar imagem do QR Code
                                 </a>
+                                <div className="flex gap-2 items-center">
+                                    <ColorPicker id="backgroundColor" onChange={(v) => handleColorChange(v)} value={color} />
+                                    <label htmlFor="backgroundColor" className="text-black text-sm">
+                                        Cor do Fundo
+                                    </label>
+                                </div>
                             </div>
                         )}
                     </div>
