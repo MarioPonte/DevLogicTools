@@ -112,13 +112,13 @@ export default function Page() {
                             </div>
 
                             <div className="flex flex-col gap-4">
-                                <Button className="w-full h-14" variant="outline" onClick={() => handleClearEntry()}>
+                                <Button className="w-full h-14 justify-between" variant="outline" onClick={() => handleClearEntry()}>
                                     <KeyboardKey>←</KeyboardKey>
                                     <span className="text-md">CE</span>
                                 </Button>
 
-                                <Button className="w-full h-14" variant="outline" onClick={() => handleClear()}>
-                                    <KeyboardKey>Esc</KeyboardKey>
+                                <Button className="w-full h-14 justify-between" variant="outline" onClick={() => handleClear()}>
+                                    <KeyboardKey shape="square">Esc</KeyboardKey>
                                     <span className="text-md">C</span>
                                 </Button>
                             </div>
