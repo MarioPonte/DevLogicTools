@@ -53,7 +53,7 @@ const Calendar = () => {
                             <span>{day}</span>
 
                             {isHoliday && (
-                                <div className="flex items-center justify-center bg-blue-500 border border-blue-200 rounded-sm h-6 w-6">
+                                <div className="flex items-center justify-center bg-blue-500 border border-blue-200 rounded-sm h-6 w-6 select-none">
                                     <span className="text-blue-50 text-lg font-bold">F</span>
                                 </div>
                             )}

@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import KeyboardKey from "@/components/ui/keyboard-key";
+import { Pi } from "lucide-react";
+import Display from "@/components/calculator/Display";
 
 export default function Page() {
     const [input, setInput] = useState("");
     const [result, setResult] = useState("");
 
     const handleButtonClick = (value: string) => value === "=" ? calculateResult() : setInput((prev) => prev + value);
+    const piValue = () => setInput((prev) => prev + Math.PI);
 
     const calculateResult = () => {
         try {
@@ -38,23 +41,15 @@ export default function Page() {
             const validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", ",", "(", ")", "+", "-", "*", "/", "x", "÷", "%"];
 
             if (validKeys.includes(key)) {
-                if (key === "*") {
-                    setInput((prev) => prev + "x");
-                } else if (key === "/") {
-                    setInput((prev) => prev + "÷");
-                } else if (key === ",") {
-                    setInput((prev) => prev + ".");
-                } else {
-                    setInput((prev) => prev + key);
-                }
+                if (key === "*") setInput((prev) => prev + "x");
+                else if (key === "/") setInput((prev) => prev + "÷");
+                else if (key === ",") setInput((prev) => prev + ".");
+                else setInput((prev) => prev + key);
             } else if (key === "Enter") {
                 e.preventDefault();
                 calculateResult();
-            } else if (key === "Backspace") {
-                setInput((prev) => prev.slice(0, -1));
-            } else if (key === "Escape") {
-                handleClear();
-            }
+            } else if (key === "Backspace") setInput((prev) => prev.slice(0, -1));
+            else if (key === "Escape") handleClear();
         };
 
         window.addEventListener("keydown", handleKeyDown);
@@ -73,10 +68,7 @@ export default function Page() {
                     </h1>
                 </div>
                 <div className="flex flex-col gap-4 sm:gap-8 items-center justify-center w-96 m-auto">
-                    <div className="flex flex-col p-2 justify-between items-end border rounded-lg w-full h-20">
-                        {result && <span className="text-sm text-neutral-600">{input} =</span>}
-                        <span className="text-3xl">{result || input || ""}</span>
-                    </div>
+                    <Display input={input} result={result} />
 
                     <div className="flex justify-between w-full">
                         <div className="flex flex-col gap-4 w-56">
@@ -109,6 +101,12 @@ export default function Page() {
                                         ))}
                                     </div>
                                 ))}
+                            </div>
+
+                            <div className="flex flex-col gap-4">
+                                <Button className="w-full h-14 justify-between" onClick={() => piValue()}>
+                                    <Pi />
+                                </Button>
                             </div>
 
                             <div className="flex flex-col gap-4">
